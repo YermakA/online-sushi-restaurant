@@ -1,12 +1,12 @@
-import './App.css';
+import React from "react";
 import Header from "./components/layout/Header.jsx";
 
 
 function App() {
   return (
-    <div>
+    <React.Fragment>
       < Header />
-    </div>
+    </React.Fragment>
   );
 }
 
