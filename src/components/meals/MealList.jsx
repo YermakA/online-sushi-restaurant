@@ -50,6 +50,9 @@ const MealList = () => {
             />)}
         </ul>
       </Card>
+
+
+
     </section>)
 }
 
