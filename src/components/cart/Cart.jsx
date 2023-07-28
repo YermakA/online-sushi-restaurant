@@ -5,13 +5,13 @@ const Cart = (props) => {
   const cartItems = 0;
 
   return (
-    <Modal>
+    <Modal hiddenCart={props.hiddenCart}>
       <div className={styles.total}>
         <span>49.99</span>
         <span>Итого</span>
         <div className={styles.actions}>
-          <button className={styles["button-alt"]}>Закрыть</button>
-          <button className={styles.button}>Заказать</button>
+          <button className={styles["button-alt"]} onClick={props.hiddenCart}>Закрыть</button>
+          <button className={styles.button} >Заказать</button>
         </div>
       </div>
     </Modal>

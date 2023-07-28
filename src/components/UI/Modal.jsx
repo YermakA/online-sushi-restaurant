@@ -4,7 +4,7 @@ import React from 'react'
 
 
 const BackDrop = (props) => {
-  return (<div className={styles.backdrop}></div>)
+  return (<div className={styles.backdrop} onClick={props.hiddenCart}></div>)
 }
 
 
@@ -22,7 +22,7 @@ const portalElement = document.querySelector('#modal')
 const Modal = (props) => {
   return (
     <React.Fragment>
-      {ReactDOM.createPortal(<BackDrop />, portalElement)}
+      {ReactDOM.createPortal(<BackDrop hiddenCart={props.hiddenCart} />, portalElement)}
       {ReactDOM.createPortal(<ModalWindow>{props.children}</ModalWindow>, portalElement)}
     </React.Fragment>
   )
