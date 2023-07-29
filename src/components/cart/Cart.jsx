@@ -6,14 +6,31 @@ import CartItem from "./CartItem"
 
 const Cart = (props) => {
   const cartContext = useContext(CartContext)
-  const totalAmount = `$${cartContext.totalAmount}`
+  const totalAmount = `$${Math.abs(cartContext.totalAmount.toFixed(2))}`
+  const addItemHandler = (item) => {
+
+    cartContext.addItem({
+      ...item, amount: 1
+    })
+  }
+  const removeItemHandler = (id) => {
+    cartContext.removeItem(id)
+  }
   const cartItems = cartContext.items.map(item => {
-    return <CartItem key={item.id} price={item.price} name={item.name} amount={item.amount} />
+    return (
+      <CartItem
+        key={item.id}
+        price={item.price}
+        name={item.name}
+        amount={item.amount}
+        onAdd={addItemHandler.bind(null, item)}
+        onRemove={removeItemHandler.bind(null, item.id)}
+      />)
   });
   const hasItems = cartContext.items.length > 0
   return (
     <Modal hiddenCart={props.hiddenCart}>
-      {cartItems}
+      <ul>{cartItems} </ul>
       <div className={styles.total}>
         <span>{totalAmount}</span>
         <span>Итого</span>

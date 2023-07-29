@@ -1,3 +1,4 @@
+import { act } from "react-dom/test-utils"
 import CartContext from "./cart-context"
 import { useReducer } from "react"
 
@@ -8,10 +9,42 @@ const defaultCartState = {
 
 const cartReducer = (state, action) => {
   if (action.type === "ADD_ITEM") {
-    const updateItems = state.items.concat(action.item)
     const updateTotalAmount = state.totalAmount + action.item.price * action.item.amount
+    const existingItemIndex = state.items.findIndex(item => item.name === action.item.name);
+    let updateItems
+    let updateItem
+    const existingItem = state.items[existingItemIndex]
+    if (existingItem) {
+
+      updateItem = {
+        ...existingItem,
+        amount: existingItem.amount + action.item.amount
+      }
+      updateItems = [...state.items]
+      updateItems[existingItemIndex] = updateItem
+    } else {
+      updateItems = state.items.concat(action.item)
+    }
     return {
       items: updateItems,
+      totalAmount: updateTotalAmount
+    }
+  }
+  if (action.type === "REMOVE_ITEM") {
+
+    const findItemIndex = state.items.findIndex(item => item.id === action.id)
+    const findItem = { ...state.items[findItemIndex] }
+    findItem.amount = findItem.amount - 1
+    let remainingItems
+    if (findItem.amount === 0) {
+      remainingItems = [...state.items.filter(item => item.id !== findItem.id)]
+    } else {
+      remainingItems = [...state.items]
+      remainingItems[findItemIndex] = findItem
+    }
+    const updateTotalAmount = state.totalAmount - findItem.price
+    return {
+      items: remainingItems,
       totalAmount: updateTotalAmount
     }
   }
